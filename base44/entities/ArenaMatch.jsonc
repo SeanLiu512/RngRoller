@@ -1,0 +1,66 @@
+{
+  "name": "ArenaMatch",
+  "type": "object",
+  "properties": {
+    "player_name": {
+      "type": "string",
+      "default": ""
+    },
+    "weapon_id": {
+      "type": "string",
+      "default": ""
+    },
+    "badges_used": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "result": {
+      "type": "string",
+      "enum": [
+        "victory",
+        "defeat"
+      ],
+      "default": "defeat"
+    },
+    "kills": {
+      "type": "integer",
+      "default": 0
+    },
+    "damage_dealt": {
+      "type": "integer",
+      "default": 0
+    },
+    "damage_taken": {
+      "type": "integer",
+      "default": 0
+    },
+    "survival_time": {
+      "type": "number",
+      "default": 0
+    },
+    "rank": {
+      "type": "integer",
+      "default": 4
+    }
+  },
+  "required": [
+    "player_name",
+    "weapon_id",
+    "result"
+  ],
+  "rls": {
+    "create": true,
+    "read": true,
+    "update": {
+      "created_by": "{{user.email}}"
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

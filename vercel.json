@@ -1,0 +1,8 @@
+{
+  "buildCommand": "npx prisma generate --schema server/prisma/schema.prisma && npx prisma db push --schema server/prisma/schema.prisma --accept-data-loss --skip-generate && vite build",
+  "outputDirectory": "dist",
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

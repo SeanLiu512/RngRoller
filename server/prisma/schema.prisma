@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  // On Vercel (serverless), this MUST be a pooled connection string
+  // (e.g. Neon's "-pooler" host) — serverless functions open many short-lived
+  // connections, which a normal Postgres connection limit can't handle.
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 String   @id @default(cuid())
+  email               String   @unique
+  passwordHash        String?
+  role                String   @default("user") // "user" | "admin"
+  banned              Boolean  @default(false)
+  emailVerified       Boolean  @default(false)
+  equipped_badge       String   @default("")
+  custom_badge_name    String   @default("")
+  custom_badge_image   String   @default("")
+  ep_spent             Int      @default(0)
+  active_boost         String   @default("")
+  store_unlocks        String[] @default([])
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  rolls        Roll[]
+  arenaMatches ArenaMatch[]
+}
+
+model Roll {
+  id                  String   @id @default(cuid())
+  number              Int
+  ep                  Int      @default(0)
+  rarity              String   @default("common")
+  badges              String[] @default([])
+  roller_name         String   @default("")
+  roll_date           String
+  equipped_badge      String   @default("")
+  custom_badge_name   String   @default("")
+  custom_badge_image  String   @default("")
+  roller_vip          Boolean  @default(false)
+  created_by_id       String
+  created_by          String   @default("")
+  createdAt           DateTime @default(now())
+
+  user User @relation(fields: [created_by_id], references: [id], onDelete: Cascade)
+
+  @@index([created_by_id])
+  @@index([roll_date])
+}
+
+model ArenaMatch {
+  id             String   @id @default(cuid())
+  player_name    String   @default("")
+  weapon_id      String   @default("")
+  badges_used    String[] @default([])
+  result         String   @default("defeat")
+  kills          Int      @default(0)
+  damage_dealt   Int      @default(0)
+  damage_taken   Int      @default(0)
+  survival_time  Float    @default(0)
+  rank           Int      @default(4)
+  created_by_id  String
+  created_by     String   @default("")
+  createdAt      DateTime @default(now())
+
+  user User @relation(fields: [created_by_id], references: [id], onDelete: Cascade)
+
+  @@index([created_by_id])
+}
+
+model EmailOtp {
+  id        String   @id @default(cuid())
+  email     String
+  code      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([email])
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  email     String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model Upload {
+  id        String   @id @default(cuid())
+  mime      String
+  data      String
+  createdAt DateTime @default(now())
+}
