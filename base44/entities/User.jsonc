@@ -1,0 +1,48 @@
+{
+  "properties": {
+    "role": {
+      "type": "string",
+      "description": "The role of the user in the app",
+      "enum": [
+        "admin",
+        "user"
+      ]
+    },
+    "equipped_badge": {
+      "type": "string",
+      "default": ""
+    },
+    "custom_badge_name": {
+      "type": "string",
+      "default": ""
+    },
+    "custom_badge_image": {
+      "type": "string",
+      "default": ""
+    },
+    "banned": {
+      "type": "boolean",
+      "default": false
+    },
+    "ep_spent": {
+      "type": "integer",
+      "default": 0
+    },
+    "active_boost": {
+      "type": "string",
+      "default": ""
+    },
+    "store_unlocks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    }
+  },
+  "required": [
+    "role"
+  ],
+  "name": "User",
+  "type": "object"
+}

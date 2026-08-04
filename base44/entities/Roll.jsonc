@@ -1,0 +1,81 @@
+{
+  "name": "Roll",
+  "type": "object",
+  "properties": {
+    "number": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 999999
+    },
+    "ep": {
+      "type": "integer",
+      "default": 0
+    },
+    "rarity": {
+      "type": "string",
+      "enum": [
+        "trash",
+        "common",
+        "uncommon",
+        "rare",
+        "epic",
+        "67_i",
+        "anomaly",
+        "67_ii",
+        "mythic",
+        "67_iii",
+        "rainbow"
+      ],
+      "default": "common"
+    },
+    "badges": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "roller_name": {
+      "type": "string",
+      "default": ""
+    },
+    "roll_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "equipped_badge": {
+      "type": "string",
+      "default": ""
+    },
+    "custom_badge_name": {
+      "type": "string",
+      "default": ""
+    },
+    "custom_badge_image": {
+      "type": "string",
+      "default": ""
+    },
+    "roller_vip": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "number",
+    "ep",
+    "rarity",
+    "roll_date"
+  ],
+  "rls": {
+    "create": null,
+    "read": null,
+    "update": {
+      "created_by_id": "{{user.id}}"
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
